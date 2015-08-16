@@ -11,18 +11,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Map;
+import java.util.*;
 
 import static org.springframework.http.HttpMethod.GET;
 
 @Service
-public class PoloniexService {
+public class PoloniexService implements DataFeed {
 
     private static final Logger log = LoggerFactory.getLogger("general");
 
+    @Override
+    public List<MarketData> getLastData(Collection<MarketAsset> assets) {
+        List<MarketData> ret = new ArrayList<>();
 
-
-    public String getUSDETHLastPrice(){
         RestTemplate restTemplate = new RestTemplate();
         String rpcEnd = "https://poloniex.com/public?command=returnTicker";
 
@@ -42,11 +43,12 @@ public class PoloniexService {
         }
 
         Map<String, PoloniexInstrument> output = response.getBody();
-        PoloniexInstrument p = output.get("USDT_ETH");
 
-        log.info("USD_ETH:  {}", p.getLast());
-        return p.getLast();
+        for (MarketAsset asset : assets) {
+            PoloniexInstrument pi = output.get(asset.getTickerSymbol());
+            ret.add(new MarketData(asset, new Date(), Double.parseDouble(pi.getLast())));
+        }
+
+        return ret;
     }
-
-
 }
