@@ -34,12 +34,18 @@
         </encoder>
     </appender>
 
-    <root level="ERROR">
+    <root level="INFO">
         <appender-ref ref="FILE"/>
         <appender-ref ref="STDOUT"/>
     </root>
 
     <logger level="INFO" name="general"/>
+    <logger level="WARN" name="VM"/>
+    <logger level="WARN" name="wire"/>
+    <logger level="WARN" name="net"/>
+    <logger level="WARN" name="gas"/>
+    <logger level="WARN" name="discover"/>
+    <logger level="WARN" name="wallet"/>
 
 
 </configuration>

@@ -45,7 +45,7 @@ public class PoloniexService implements DataFeed {
         Map<String, PoloniexInstrument> output = response.getBody();
 
         for (MarketAsset asset : assets) {
-            PoloniexInstrument pi = output.get(asset.getTickerSymbol());
+            PoloniexInstrument pi = output.get(asset.getSymbol());
             ret.add(new MarketData(asset, new Date(), Double.parseDouble(pi.getLast())));
         }
 

@@ -28,7 +28,13 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-remote-shell"
     compile "org.springframework.boot:spring-boot-starter-security"
 
+    compile ("org.ethereum:ethereumj-core:1.0.0-SNAPSHOT"){
 
+        exclude group: "log4j"
+        exclude group: "org.slf4j", module: "log4j-over-slf4j"
+        exclude group: "org.slf4j", module: "slf4j-log4j12"
+
+    }
 }
 
 sourceSets {
