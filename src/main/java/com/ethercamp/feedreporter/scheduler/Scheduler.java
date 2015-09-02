@@ -69,7 +69,7 @@ public class Scheduler {
         }
     }
 
-    @Scheduled(cron = "0 0/1 * * * ?")
+    @Scheduled(cron = "0 0/10 * * * ?")
     public void doSome(){
         if (ethereumBean.getEthereumListener() != null && ethereumBean.getEthereumListener().isSyncDone()) {
             List<MarketData> lastData = new ArrayList<>();
