@@ -65,7 +65,7 @@ public class Scheduler {
         log.info("Publishing: " + publishAssetList);
 
         for (MarketAsset asset : publishAssetList) {
-            publishAssets.getOrDefault(asset.getExchange(), new ArrayList<>()).add(asset);
+            publishAssets.computeIfAbsent(asset.getExchange(),e -> new ArrayList<>()).add(asset);
         }
     }
 

@@ -16,7 +16,11 @@ import java.util.stream.Collectors;
  */
 @Service
 public class YahooFinance implements DataFeed {
-    private static final DateFormat TIME = new SimpleDateFormat("dd/MM/yyyy h:mma");
+    private static final DateFormat TIME = new SimpleDateFormat("MM/dd/yyyy h:mma");
+
+    static {
+        TIME.setTimeZone(TimeZone.getTimeZone("America/New_York"));
+    }
 
     @Override
     public List<MarketData> getLastData(Collection<MarketAsset> assets) {
@@ -28,12 +32,18 @@ public class YahooFinance implements DataFeed {
             while(true) {
                 String rs = br.readLine();
                 if (rs == null) break;
-
-                StringTokenizer st = new StringTokenizer(rs, ",");
-                MarketAsset asset = MarketAsset.getByExchangeSymbol(trim(st.nextToken()));
-                double price = Double.parseDouble(trim(st.nextToken()));
-                Date t = TIME.parse(trim(st.nextToken()) + " " + trim(st.nextToken()));
-                ret.add(new MarketData(asset, t, price));
+                try {
+                    StringTokenizer st = new StringTokenizer(rs, ",");
+                    MarketAsset asset = MarketAsset.getByExchangeSymbol(trim(st.nextToken()));
+                    double price = Double.parseDouble(trim(st.nextToken()));
+                    // some assets timestamps come with a timeZone different than NewYork and
+                    // there is no ways to differentiate, so just putting local time
+                    //                Date t = TIME.parse(trim(st.nextToken()) + " " + trim(st.nextToken()));
+                    Date t = new Date();
+                    ret.add(new MarketData(asset, t, price));
+                } catch (Exception e) {
+                    System.out.println("Error parsing string '" + rs + "': " + e);
+                }
             }
             return ret;
         } catch (Exception e) {
@@ -47,13 +57,5 @@ public class YahooFinance implements DataFeed {
         if (s.startsWith("\"")) s = s.substring(1);
         if (s.endsWith("\"")) s = s.substring(0, s.length() - 1);
         return s;
-    }
-
-    public static void main(String[] args) throws Exception {
-        List<MarketAsset> s = new ArrayList<>();
-        s.add(MarketAsset.GLD);
-        YahooFinance yf = new YahooFinance();
-        List<MarketData> lastData = yf.getLastData(s);
-        System.out.println(lastData);
     }
 }

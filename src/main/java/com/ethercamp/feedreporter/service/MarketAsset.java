@@ -38,9 +38,25 @@ public class MarketAsset {
     public static final MarketAsset USD_ETH = createBySymbol("USDT_ETH", Exchange.POLONIEX);
     public static final MarketAsset USD_BTC = createBySymbol("USDT_BTC", Exchange.POLONIEX);
     public static final MarketAsset BTC_ETH = createBySymbol("BTC_ETH", Exchange.POLONIEX);
-    public static final MarketAsset GLD = createBySymbol("GLD", Exchange.YAHOO);
+
     public static final MarketAsset EURUSD = createBySymbol("EURUSD", "EURUSD=X", Exchange.YAHOO);
+    public static final MarketAsset GBPUSD = createBySymbol("GBPUSD", "GBPUSD=X", Exchange.YAHOO);
+    public static final MarketAsset USDJPY = createBySymbol("USDJPY", "USDJPY=X", Exchange.YAHOO);
+
     public static final MarketAsset SP500 = createBySymbol("SP500", "^GSPC", Exchange.YAHOO);
+//    public static final MarketAsset DOWJONES = createBySymbol("DOWJONES", "^DJI", Exchange.YAHOO); // N/A received from Yahoo
+    public static final MarketAsset NASDAQ = createBySymbol("NASDAQ", "^IXIC", Exchange.YAHOO);
+
+//    public static final MarketAsset GLD = createBySymbol("GLD", Exchange.YAHOO);
+    public static final MarketAsset AAPL = createBySymbol("AAPL", Exchange.YAHOO); // Apple
+    public static final MarketAsset GOOG = createBySymbol("GOOG", Exchange.YAHOO); // Google
+    public static final MarketAsset MSFT = createBySymbol("MSFT", Exchange.YAHOO); // Microsoft
+    public static final MarketAsset GM = createBySymbol("GM", Exchange.YAHOO);   // General Motors
+    public static final MarketAsset GE = createBySymbol("GE", Exchange.YAHOO);   // General Electric
+    public static final MarketAsset WMT = createBySymbol("WMT", Exchange.YAHOO); // WalMart
+    public static final MarketAsset F = createBySymbol("F", Exchange.YAHOO); // Ford Motor
+    public static final MarketAsset T = createBySymbol("T", Exchange.YAHOO); // AT&T
+
 
     public static List<MarketAsset> createAllList() {
         List<MarketAsset> ret = new ArrayList<MarketAsset>();
