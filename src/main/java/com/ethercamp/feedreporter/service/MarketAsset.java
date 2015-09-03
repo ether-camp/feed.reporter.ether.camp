@@ -42,7 +42,8 @@ public class MarketAsset {
     public static final MarketAsset EURUSD = createBySymbol("EURUSD", "EURUSD=X", Exchange.YAHOO);
     public static final MarketAsset GBPUSD = createBySymbol("GBPUSD", "GBPUSD=X", Exchange.YAHOO);
     public static final MarketAsset USDJPY = createBySymbol("USDJPY", "USDJPY=X", Exchange.YAHOO);
-    public static final MarketAsset XAUUSD = createBySymbol("XAUUSD", "XAUUSD=X", Exchange.YAHOO);
+    public static final MarketAsset XAUUSD = createBySymbol("XAUUSD", "XAUUSD=X", Exchange.YAHOO); // Gold
+    public static final MarketAsset XAGUSD = createBySymbol("XAGUSD", "XAGUSD=X", Exchange.YAHOO); // Silver
 
     public static final MarketAsset SP500 = createBySymbol("SP500", "^GSPC", Exchange.YAHOO);
 //    public static final MarketAsset DOWJONES = createBySymbol("DOWJONES", "^DJI", Exchange.YAHOO); // N/A received from Yahoo
