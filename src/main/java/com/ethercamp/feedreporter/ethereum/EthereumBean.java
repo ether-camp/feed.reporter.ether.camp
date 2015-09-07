@@ -6,11 +6,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-@Component
 public class EthereumBean {
 
-
     private static final Logger log = LoggerFactory.getLogger("general");
+
 
     Ethereum ethereum;
     EthereumListener ethereumListener;
@@ -20,6 +19,7 @@ public class EthereumBean {
         log.info(" *                   * ");
         log.info(" * Starting ethereum * ");
         log.info(" *                   * ");
+
 
         this.ethereum = EthereumFactory.createEthereum();
         ethereumListener = new EthereumListener(ethereum);

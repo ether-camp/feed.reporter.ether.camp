@@ -4,7 +4,6 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import org.springframework.stereotype.Component;
 
-@Component
 public class FeedConfig {
     public final Config CONFIG;
 

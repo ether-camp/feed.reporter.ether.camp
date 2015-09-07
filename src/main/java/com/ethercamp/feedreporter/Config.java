@@ -1,8 +1,12 @@
 package com.ethercamp.feedreporter;
 
 import com.ethercamp.feedreporter.ethereum.EthereumBean;
+import com.ethercamp.feedreporter.scheduler.FeedConfig;
 import com.ethercamp.feedreporter.scheduler.Scheduler;
 import com.ethercamp.feedreporter.service.PoloniexService;
+import com.ethercamp.feedreporter.service.YahooFinance;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
@@ -17,6 +21,15 @@ public class Config {
         return new RestTemplate();
     }
 
+    @Bean
+    public YahooFinance yahooFinance(){
+        return new YahooFinance();
+    }
+
+    @Bean
+    public FeedConfig feedConfig(){
+        return  new FeedConfig();
+    }
 
     @Bean
     public Scheduler scheduler(){
@@ -30,6 +43,8 @@ public class Config {
 
     @Bean
     EthereumBean ethereumBean() throws Exception {
+
+
         EthereumBean ethereumBean = new EthereumBean();
         Executors.newSingleThreadExecutor().
                 submit(ethereumBean::start);

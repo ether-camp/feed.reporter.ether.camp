@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 
 import static org.ethereum.crypto.SHA3Helper.sha3;
 
-@Component
 public class Scheduler {
 
     private static final Logger log = LoggerFactory.getLogger("general");

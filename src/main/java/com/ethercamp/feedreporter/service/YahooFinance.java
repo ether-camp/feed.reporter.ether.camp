@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 /**
  * Created by Anton on 16.08.2015.
  */
-@Service
 public class YahooFinance implements DataFeed {
     private static final DateFormat TIME = new SimpleDateFormat("MM/dd/yyyy h:mma");
 
