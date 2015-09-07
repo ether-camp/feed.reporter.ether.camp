@@ -1,5 +1,5 @@
 export APP_ENV="frontier"
-export APP_ARGS="-Dethereumj.conf.file=$APP_SRC_DIR/main/resources/conf/$APP_ENV.conf"
+export APP_ARGS="-Djava.security.egd=file:/dev/./urandom -Dethereumj.conf.file=$APP_SRC_DIR/main/resources/conf/$APP_ENV.conf"
 
 export JAVA_OPTS="-Xms3g -Xmx4g"
 
