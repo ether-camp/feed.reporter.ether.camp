@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  * Created by Anton Nashatyrev on 03.09.2015.
  */
 public class FeedTest {
-    public static void main(String[] args) throws Exception {
+    public static void main_remove(String[] args) throws Exception {
         List<MarketAsset> publishAssetList;
         publishAssetList = MarketAsset.createAllList();
 

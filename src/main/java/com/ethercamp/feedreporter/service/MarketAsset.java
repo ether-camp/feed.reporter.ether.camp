@@ -130,7 +130,4 @@ public class MarketAsset {
         return getSymbol();
     }
 
-    public static void main(String[] args) {
-        System.out.println(MarketAsset.USD_ETH);
-    }
 }
