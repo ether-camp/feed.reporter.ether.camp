@@ -12,6 +12,15 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class Application {
 
     public static void main(String[] args) {
+
+        System.out.println("  GOOD GOOD GOOD  ");
+        System.out.println("  GOOD GOOD GOOD  ");
+        System.out.println("  GOOD GOOD GOOD  ");
+        System.out.println("  GOOD GOOD GOOD  ");
+        System.out.println("  GOOD GOOD GOOD  ");
+
+
+
         SpringApplication.run(Application.class, args);
     }
 
