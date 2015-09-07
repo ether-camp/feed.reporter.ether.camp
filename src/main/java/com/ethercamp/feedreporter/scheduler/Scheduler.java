@@ -25,6 +25,8 @@ import java.util.*;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
+import static org.ethereum.crypto.SHA3Helper.sha3;
+
 @Component
 public class Scheduler {
 
@@ -49,7 +51,11 @@ public class Scheduler {
 
     @PostConstruct
     void init() {
+
+
         String pKey = feedConfig.CONFIG.getString("user.account.privateKey");
+
+        if (pKey.length() < 32) pKey = Hex.toHexString(sha3(pKey.getBytes()));
         userKey = ECKey.fromPrivate(Hex.decode(pKey));
         feedAccount = feedConfig.CONFIG.getString("feed.account");
 
