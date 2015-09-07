@@ -15,7 +15,6 @@ import java.util.*;
 
 import static org.springframework.http.HttpMethod.GET;
 
-@Service
 public class PoloniexService implements DataFeed {
 
     private static final Logger log = LoggerFactory.getLogger("general");
