@@ -6,4 +6,4 @@ export JAVA_OPTS="-Xms3g -Xmx4g"
 echo "JAVA_OPTS: $JAVA_OPTS"
 echo "APP_ARGS: $APP_ARGS"
 
-./gradlew clean bootRun -PjvmArgs="$JAVA_OPTS" $APP_ARGS > out.log
+./gradlew clean bootRun -PjvmArgs="$JAVA_OPTS" $APP_ARGS > out.log  &
