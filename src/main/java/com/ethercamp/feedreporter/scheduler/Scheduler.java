@@ -105,14 +105,21 @@ public class Scheduler {
                 timestamps[i] = Utils.toUnixTime(lastData.get(i).getTime().getTime());
             }
 
-            Transaction tx = CallTransaction.createCallTransaction(nonce.longValue(),
-                    70_000_000_000L, 1_000_000, feedAccount, 1,
-                    function, symbols, prices, timestamps);
+
+            Transaction tx = CallTransaction.createCallTransaction(
+                    nonce.longValue(),
+                    70_000_000_000L, // => gas price
+                    1_000_000,       // => gas limit
+                    feedAccount,     // => the contract address we actually updating
+                    1,               // => value,  can be zero
+                    function,        // => abi definition of the call
+                    symbols, prices, timestamps // => params to update: for each: symbol~(price, timestamp)
+            );
 
             tx.sign(userKey.getPrivKeyBytes());
 
-            log.info("======= Sending: " + tx);
-            Future<Transaction> future = ethereum.submitTransaction(tx);
+            log.info("=> Sending: " + tx);
+            ethereum.submitTransaction(tx);
         } else {
             log.info("======= Sync is still in progress...");
         }
