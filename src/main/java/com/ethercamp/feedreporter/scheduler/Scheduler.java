@@ -76,52 +76,57 @@ public class Scheduler {
 
     @Scheduled(cron = "0 0/10 * * * ?")
     public void doSome(){
-        if (ethereumBean.getEthereumListener() != null && ethereumBean.getEthereumListener().isSyncDone()) {
-            List<MarketData> lastData = new ArrayList<>();
-            for (Map.Entry<MarketAsset.Exchange, List<MarketAsset>> entry : publishAssets.entrySet()) {
-                log.debug("Receiving data from " + entry.getKey() + ": " + entry.getValue());
-                lastData.addAll(entry.getKey().getFeed().getLastData(entry.getValue()));
+        try {
+            log.info("Scheduler.doSome");
+            if (ethereumBean.getEthereumListener() != null && ethereumBean.getEthereumListener().isSyncDone()) {
+                List<MarketData> lastData = new ArrayList<>();
+                for (Map.Entry<MarketAsset.Exchange, List<MarketAsset>> entry : publishAssets.entrySet()) {
+                    log.debug("Receiving data from " + entry.getKey() + ": " + entry.getValue());
+                    lastData.addAll(entry.getKey().getFeed().getLastData(entry.getValue()));
+                }
+                log.info("======= Received market data: " + lastData);
+                //        System.out.println();
+
+                Ethereum ethereum = ethereumBean.getEthereum();
+
+                CallTransaction.Function function = CallTransaction.Function.fromSignature("update",
+                        "bytes32[]", "uint[]", "uint[]");
+
+                byte[] accountAddr = userKey.getAddress();
+
+                BigInteger nonce = ethereum.getRepository().getNonce(accountAddr);
+                log.info("======= Nonce: " + nonce);
+                long t = System.currentTimeMillis();
+                String[] symbols = new String[lastData.size()];
+                int[] prices = new int[lastData.size()];
+                long[] timestamps = new long[lastData.size()];
+
+                for (int i = 0; i < lastData.size(); i++) {
+                    symbols[i] = lastData.get(i).getAsset().getSymbol();
+                    prices[i] = (int) (lastData.get(i).getLastPrice() * 1_000_000);
+                    timestamps[i] = Utils.toUnixTime(lastData.get(i).getTime().getTime());
+                }
+
+
+                Transaction tx = CallTransaction.createCallTransaction(
+                        nonce.longValue(),
+                        70_000_000_000L, // => gas price
+                        1_000_000,       // => gas limit
+                        feedAccount,     // => the contract address we actually updating
+                        1,               // => value,  can be zero
+                        function,        // => abi definition of the call
+                        symbols, prices, timestamps // => params to update: for each: symbol~(price, timestamp)
+                );
+
+                tx.sign(userKey.getPrivKeyBytes());
+
+                log.info("=> Sending: " + tx);
+                ethereum.submitTransaction(tx);
+            } else {
+                log.info("======= Sync is still in progress...");
             }
-            log.info("======= Received market data: " + lastData);
-            //        System.out.println();
-
-            Ethereum ethereum = ethereumBean.getEthereum();
-
-            CallTransaction.Function function = CallTransaction.Function.fromSignature("update",
-                    "bytes32[]", "uint[]", "uint[]");
-
-            byte[] accountAddr = userKey.getAddress();
-
-            BigInteger nonce = ethereum.getRepository().getNonce(accountAddr);
-            log.info("======= Nonce: " + nonce);
-            long t = System.currentTimeMillis();
-            String[] symbols = new String[lastData.size()];
-            int[] prices = new int[lastData.size()];
-            long[] timestamps = new long[lastData.size()];
-
-            for (int i = 0; i < lastData.size(); i++) {
-                symbols[i] = lastData.get(i).getAsset().getSymbol();
-                prices[i] = (int) (lastData.get(i).getLastPrice() * 1_000_000);
-                timestamps[i] = Utils.toUnixTime(lastData.get(i).getTime().getTime());
-            }
-
-
-            Transaction tx = CallTransaction.createCallTransaction(
-                    nonce.longValue(),
-                    70_000_000_000L, // => gas price
-                    1_000_000,       // => gas limit
-                    feedAccount,     // => the contract address we actually updating
-                    1,               // => value,  can be zero
-                    function,        // => abi definition of the call
-                    symbols, prices, timestamps // => params to update: for each: symbol~(price, timestamp)
-            );
-
-            tx.sign(userKey.getPrivKeyBytes());
-
-            log.info("=> Sending: " + tx);
-            ethereum.submitTransaction(tx);
-        } else {
-            log.info("======= Sync is still in progress...");
+        } catch (Exception e) {
+            log.error("Exception while polling market data", e);
         }
     }
 }
