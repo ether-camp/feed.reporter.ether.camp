@@ -31,7 +31,7 @@ configurations.all {
 dependencies {
 
     compile "org.springframework.boot:spring-boot-starter-web"
-    compile ("org.ethereum:ethereumj-core:1.0.0-SNAPSHOT"){
+    compile ("org.ethereum:ethereumj-core:1.1.0-SNAPSHOT"){
 
         exclude group: "log4j"
         exclude group: "org.slf4j", module: "log4j-over-slf4j"
